@@ -74,13 +74,16 @@ public final class TiffOutputDirectory extends TiffOutputItem {
     private final List<TiffOutputField> fields = new ArrayList<>();
     private final ByteOrder byteOrder;
     private TiffOutputDirectory nextDirectory;
-    public static final Comparator<TiffOutputDirectory> COMPARATOR = (o1, o2) -> {
-        if (o1.type < o2.type) {
-            return -1;
-        } else if (o1.type > o2.type) {
-            return 1;
-        } else {
-            return 0;
+    public static final Comparator<TiffOutputDirectory> COMPARATOR = new Comparator<TiffOutputDirectory>() {
+        @Override
+        public int compare(final TiffOutputDirectory o1, final TiffOutputDirectory o2) {
+            if (o1.type < o2.type) {
+                return -1;
+            } else if (o1.type > o2.type) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     };
     private JpegImageData jpegImageData;
@@ -594,11 +597,14 @@ public final class TiffOutputDirectory extends TiffOutputItem {
     }
 
     public void sortFields() {
-        final Comparator<TiffOutputField> comparator = (e1, e2) -> {
-            if (e1.tag != e2.tag) {
-                return e1.tag - e2.tag;
+        final Comparator<TiffOutputField> comparator = new Comparator<TiffOutputField>() {
+            @Override
+            public int compare(final TiffOutputField e1, final TiffOutputField e2) {
+                if (e1.tag != e2.tag) {
+                    return e1.tag - e2.tag;
+                }
+                return e1.getSortHint() - e2.getSortHint();
             }
-            return e1.getSortHint() - e2.getSortHint();
         };
         Collections.sort(fields, comparator);
     }
@@ -775,7 +781,7 @@ public final class TiffOutputDirectory extends TiffOutputItem {
         }
 
         if (null != jpegImageData) {
-            final TiffOutputItem item = new TiffOutputItem.Value("JPEG image data",
+            final TiffOutputItem item = new Value("JPEG image data",
                     jpegImageData.getData());
             result.add(item);
             outputSummary.add(item, jpegOffsetField);

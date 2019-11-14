@@ -40,13 +40,9 @@
  */
 package org.apache.commons.imaging.common;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DirectColorModel;
-import java.awt.image.Raster;
-import java.awt.image.RasterFormatException;
-import java.awt.image.WritableRaster;
+import android.graphics.Bitmap;
+
+import org.apache.commons.imaging.BufferedImage;
 import java.util.Properties;
 
 /**
@@ -67,12 +63,12 @@ public class ImageBuilder {
      * (the selection of alpha channel does not change the memory
      * requirements for the ImageBuilder or resulting BufferedImage.
      */
-    public ImageBuilder(final int width, final int height, final boolean hasAlpha) {
+    public ImageBuilder(final int width, final int height, final boolean hasAlpha) throws Exception {
         if (width <= 0) {
-            throw new RasterFormatException("zero or negative width value");
+            throw new Exception("zero or negative width value");
         }
         if (height <= 0) {
-            throw new RasterFormatException("zero or negative height value");
+            throw new Exception("zero or negative height value");
         }
 
         data = new int[width * height];
@@ -135,7 +131,7 @@ public class ImageBuilder {
      * Gets a subimage from the ImageBuilder using the specified parameters.
      * If the parameters specify a rectangular region that is not entirely
      * contained within the bounds defined by the ImageBuilder, this method will
-     * throw a RasterFormatException.  This runtime-exception behavior
+     * throw a Exception.  This runtime-exception behavior
      * is consistent with the behavior of the getSubimage method
      * provided by BufferdImage.
      * @param x the X coordinate of the upper-left corner of the
@@ -146,28 +142,28 @@ public class ImageBuilder {
      * @param h the height of the specified rectangular region
      * @return a BufferedImage that constructed from the deta within the
      *           specified rectangular region
-     * @throws RasterFormatException f the specified area is not contained
+     * @throws Exception f the specified area is not contained
      *         within this ImageBuilder
      */
-    public BufferedImage getSubimage(final int x, final int y, final int w, final int h) {
+    public BufferedImage getSubimage(final int x, final int y, final int w, final int h) throws Exception {
         if (w <= 0) {
-            throw new RasterFormatException("negative or zero subimage width");
+            throw new Exception("negative or zero subimage width");
         }
         if (h <= 0) {
-            throw new RasterFormatException("negative or zero subimage height");
+            throw new Exception("negative or zero subimage height");
         }
         if (x < 0 || x >= width) {
-            throw new RasterFormatException("subimage x is outside raster");
+            throw new Exception("subimage x is outside raster");
         }
         if (x + w > width) {
-            throw new RasterFormatException(
+            throw new Exception(
                     "subimage (x+width) is outside raster");
         }
         if (y < 0 || y >= height) {
-            throw new RasterFormatException("subimage y is outside raster");
+            throw new Exception("subimage y is outside raster");
         }
         if (y + h > height) {
-            throw new RasterFormatException(
+            throw new Exception(
                     "subimage (y+height) is outside raster");
         }
 
@@ -188,23 +184,15 @@ public class ImageBuilder {
 
     private BufferedImage makeBufferedImage(
             final int[] argb, final int w, final int h, final boolean useAlpha) {
-        ColorModel colorModel;
-        WritableRaster raster;
-        final DataBufferInt buffer = new DataBufferInt(argb, w * h);
+		Bitmap.Config colorModel;
+		Bitmap raster;
         if (useAlpha) {
-            colorModel = new DirectColorModel(32, 0x00ff0000, 0x0000ff00,
-                    0x000000ff, 0xff000000);
-            raster = Raster.createPackedRaster(buffer, w, h,
-                    w, new int[]{0x00ff0000, 0x0000ff00, 0x000000ff,
-                            0xff000000}, null);
+            colorModel = Bitmap.Config.ARGB_8888;
         } else {
-            colorModel = new DirectColorModel(24, 0x00ff0000, 0x0000ff00,
-                    0x000000ff);
-            raster = Raster.createPackedRaster(buffer, w, h,
-                    w, new int[]{0x00ff0000, 0x0000ff00, 0x000000ff},
-                    null);
+			colorModel = Bitmap.Config.RGB_565;
         }
-        return new BufferedImage(colorModel, raster,
-                colorModel.isAlphaPremultiplied(), new Properties());
+		raster = Bitmap.createBitmap(argb, w, h, colorModel);
+        //return new BufferedImage(colorModel, raster,false, new Properties());
+        return new BufferedImage(raster);
     }
 }

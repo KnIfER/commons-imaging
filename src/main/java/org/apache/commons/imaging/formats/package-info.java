@@ -14,34 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.imaging.palette;
 
-import org.apache.commons.imaging.ImageWriteException;
 
 /**
- * Color palette.
+ * Image file formats.
  */
-public interface Palette {
+package org.apache.commons.imaging.formats;
 
-    /**
-     * Looks up the palette index for a given color.
-     * @param rgb the color to look up
-     * @return the palette index
-     * @throws ImageWriteException
-     */
-    int getPaletteIndex(int rgb) throws ImageWriteException;
-
-    /**
-     * Looks up the color for a given palette index.
-     * @param index the palette index to look up
-     * @return the color in ARGB format
-     */
-    int getEntry(int index);
-
-    /**
-     * The number of entries in the palette.
-     * @return the number of palette entries
-     */
-    int length();
-
-}

@@ -16,11 +16,11 @@
  */
 package org.apache.commons.imaging.formats.tiff.datareaders;
 
+import android.graphics.Rect;
+
 import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_COMPRESSION_CCITT_1D;
 import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_COMPRESSION_CCITT_GROUP_3;
 import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_COMPRESSION_CCITT_GROUP_4;
-import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_COMPRESSION_DEFLATE_PKZIP;
-import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_COMPRESSION_DEFLATE_ADOBE;
 import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_COMPRESSION_LZW;
 import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_COMPRESSION_PACKBITS;
 import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_COMPRESSION_UNCOMPRESSED;
@@ -29,8 +29,7 @@ import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TI
 import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_FLAG_T4_OPTIONS_UNCOMPRESSED_MODE;
 import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_FLAG_T6_OPTIONS_UNCOMPRESSED_MODE;
 
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
+import org.apache.commons.imaging.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +41,6 @@ import org.apache.commons.imaging.common.ImageBuilder;
 import org.apache.commons.imaging.common.PackBits;
 import org.apache.commons.imaging.common.itu_t4.T4AndT6Compression;
 import org.apache.commons.imaging.common.mylzw.MyLzwDecompressor;
-import org.apache.commons.imaging.common.ZlibDeflate;
 import org.apache.commons.imaging.formats.tiff.TiffDirectory;
 import org.apache.commons.imaging.formats.tiff.TiffField;
 import org.apache.commons.imaging.formats.tiff.constants.TiffTagConstants;
@@ -80,8 +78,8 @@ public abstract class ImageDataReader {
             throws ImageReadException, IOException;
 
 
-    public abstract BufferedImage readImageData(Rectangle subImage)
-            throws ImageReadException, IOException;
+    public abstract BufferedImage readImageData(Rect subImage)
+			throws Exception;
 
     /**
      * Checks if all the bits per sample entries are the same size
@@ -220,12 +218,6 @@ public abstract class ImageDataReader {
         case TIFF_COMPRESSION_PACKBITS: // Packbits
         {
             return new PackBits().decompress(compressedOrdered, expectedSize);
-        }
-
-        case TIFF_COMPRESSION_DEFLATE_ADOBE:
-        case TIFF_COMPRESSION_DEFLATE_PKZIP: // deflate
-        {
-            return ZlibDeflate.decompress(compressedInput, expectedSize);
         }
 
         default:

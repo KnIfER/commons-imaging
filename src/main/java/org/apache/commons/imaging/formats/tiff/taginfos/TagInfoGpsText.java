@@ -35,23 +35,23 @@ import org.apache.commons.imaging.internal.Debug;
  * the non-null-terminated text in an unknown byte order.
  */
 public final class TagInfoGpsText extends TagInfo {
-    private static final TagInfoGpsText.TextEncoding TEXT_ENCODING_ASCII = new TextEncoding(
+    private static final TextEncoding TEXT_ENCODING_ASCII = new TextEncoding(
             new byte[] { 0x41, 0x53, 0x43, 0x49, 0x49, 0x00, 0x00, 0x00, },
             "US-ASCII"); // ITU-T T.50 IA5
-    private static final TagInfoGpsText.TextEncoding TEXT_ENCODING_JIS = new TextEncoding(
+    private static final TextEncoding TEXT_ENCODING_JIS = new TextEncoding(
             new byte[] { 0x4A, 0x49, 0x53, 0x00, 0x00, 0x00, 0x00, 0x00, },
             "JIS"); // JIS X208-1990
-    private static final TagInfoGpsText.TextEncoding TEXT_ENCODING_UNICODE_LE = new TextEncoding(
+    private static final TextEncoding TEXT_ENCODING_UNICODE_LE = new TextEncoding(
             new byte[] { 0x55, 0x4E, 0x49, 0x43, 0x4F, 0x44, 0x45, 0x00},
             "UTF-16LE"); // Unicode Standard
-    private static final TagInfoGpsText.TextEncoding TEXT_ENCODING_UNICODE_BE = new TextEncoding(
+    private static final TextEncoding TEXT_ENCODING_UNICODE_BE = new TextEncoding(
             new byte[] { 0x55, 0x4E, 0x49, 0x43, 0x4F, 0x44, 0x45, 0x00},
             "UTF-16BE"); // Unicode Standard
-    private static final TagInfoGpsText.TextEncoding TEXT_ENCODING_UNDEFINED = new TextEncoding(
+    private static final TextEncoding TEXT_ENCODING_UNDEFINED = new TextEncoding(
             new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
             // Try to interpret an undefined text as ISO-8859-1 (Latin)
             "ISO-8859-1"); // Undefined
-    private static final TagInfoGpsText.TextEncoding[] TEXT_ENCODINGS = {
+    private static final TextEncoding[] TEXT_ENCODINGS = {
             TEXT_ENCODING_ASCII, //
             TEXT_ENCODING_JIS, //
             TEXT_ENCODING_UNICODE_LE, //

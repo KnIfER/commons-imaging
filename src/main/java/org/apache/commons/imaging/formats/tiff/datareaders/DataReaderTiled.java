@@ -16,12 +16,9 @@
  */
 package org.apache.commons.imaging.formats.tiff.datareaders;
 
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.ByteOrder;
+import android.graphics.Rect;
 
+import org.apache.commons.imaging.BufferedImage;
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.common.ImageBuilder;
 import org.apache.commons.imaging.formats.tiff.TiffDirectory;
@@ -29,6 +26,10 @@ import org.apache.commons.imaging.formats.tiff.TiffElement.DataElement;
 import org.apache.commons.imaging.formats.tiff.TiffImageData;
 import org.apache.commons.imaging.formats.tiff.photometricinterpreters.PhotometricInterpreter;
 import org.apache.commons.imaging.formats.tiff.photometricinterpreters.PhotometricInterpreterRgb;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.ByteOrder;
 
 public final class DataReaderTiled extends ImageDataReader {
 
@@ -182,8 +183,8 @@ public final class DataReaderTiled extends ImageDataReader {
     }
 
     @Override
-    public BufferedImage readImageData(final Rectangle subImage)
-            throws ImageReadException, IOException {
+    public BufferedImage readImageData(final Rect subImage)
+			throws Exception {
         final int bitsPerRow = tileWidth * bitsPerPixel;
         final int bytesPerRow = (bitsPerRow + 7) / 8;
         final int bytesPerTile = bytesPerRow * tileLength;
@@ -192,10 +193,10 @@ public final class DataReaderTiled extends ImageDataReader {
 
         // tileWidth is the width of the tile
         // tileLength is the height of the tile
-        final int col0 = subImage.x / tileWidth;
-        final int col1 = (subImage.x + subImage.width - 1) / tileWidth;
-        final int row0 = subImage.y / tileLength;
-        final int row1 = (subImage.y + subImage.height - 1) / tileLength;
+        final int col0 = subImage.left / tileWidth;
+        final int col1 = (subImage.left + subImage.width() - 1) / tileWidth;
+        final int row0 = subImage.top / tileLength;
+        final int row1 = (subImage.top + subImage.height() - 1) / tileLength;
 
         final int nCol = col1 - col0 + 1;
         final int nRow = row1 - row0 + 1;
@@ -222,17 +223,17 @@ public final class DataReaderTiled extends ImageDataReader {
             }
         }
 
-        if (subImage.x == x0
-                && subImage.y == y0
-                && subImage.width == workingWidth
-                && subImage.height == workingHeight) {
+        if (subImage.left == x0
+                && subImage.top == y0
+                && subImage.width() == workingWidth
+                && subImage.height() == workingHeight) {
             return workingBuilder.getBufferedImage();
         }
         return workingBuilder.getSubimage(
-            subImage.x - x0,
-            subImage.y - y0,
-            subImage.width,
-            subImage.height);
+            subImage.left - x0,
+            subImage.top - y0,
+            subImage.width(),
+            subImage.height());
     }
 
 }

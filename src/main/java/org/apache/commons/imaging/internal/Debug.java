@@ -16,7 +16,6 @@
  */
 package org.apache.commons.imaging.internal;
 
-import java.awt.color.ICC_Profile;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -186,8 +185,6 @@ public final class Debug {
             debug(message, (List<?>) value);
         } else if (value instanceof Map) {
             debug(message, (Map<?, ?>) value);
-        } else if (value instanceof ICC_Profile) {
-            debug(message, (ICC_Profile) value);
         } else if (value instanceof File) {
             debug(message, (File) value);
         } else if (value instanceof Date) {
@@ -221,14 +218,6 @@ public final class Debug {
         debug(message + ": " + ((file == null) ? "null" : file.getPath()));
     }
 
-    private static void debug(final String message, final ICC_Profile value) {
-        debug("ICC_Profile " + message + ": " + ((value == null) ? "null" : value.toString()));
-        if (value != null) {
-            debug("\t getProfileClass: " + byteQuadToString(value.getProfileClass()));
-            debug("\t getPCSType: " + byteQuadToString(value.getPCSType()));
-            debug("\t getColorSpaceType() : " + byteQuadToString(value.getColorSpaceType()));
-        }
-    }
 
     private static void debug(final String message, final int[] v) {
         debug(getDebug(message, v));

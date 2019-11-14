@@ -31,8 +31,8 @@ public class ByteSourceInputStream extends ByteSource {
     private byte[] readBuffer;
     private long streamLength = -1;
 
-    public ByteSourceInputStream(final InputStream is, final String fileName) {
-        super(fileName);
+    public ByteSourceInputStream(final InputStream is, final String filename) {
+        super(filename);
         this.is = new BufferedInputStream(is);
     }
 
@@ -266,7 +266,7 @@ public class ByteSourceInputStream extends ByteSource {
 
     @Override
     public String getDescription() {
-        return "Inputstream: '" + getFileName() + "'";
+        return "Inputstream: '" + getFilename() + "'";
     }
 
 }

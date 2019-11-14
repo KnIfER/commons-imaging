@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +37,6 @@ import org.apache.commons.imaging.common.BinaryFileParser;
 import org.apache.commons.imaging.common.ByteConversions;
 import org.apache.commons.imaging.common.bytesource.ByteSource;
 import org.apache.commons.imaging.common.bytesource.ByteSourceFile;
-import org.apache.commons.imaging.formats.jpeg.JpegConstants;
 import org.apache.commons.imaging.formats.tiff.TiffDirectory.ImageDataElement;
 import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
 import org.apache.commons.imaging.formats.tiff.constants.TiffDirectoryConstants;
@@ -328,7 +326,7 @@ public class TiffReader extends BinaryFileParser {
         }
 
         public TiffContents getContents() {
-            return new TiffContents(tiffHeader, directories, fields);
+            return new TiffContents(tiffHeader, directories);
         }
     }
 
@@ -387,9 +385,7 @@ public class TiffReader extends BinaryFileParser {
     public TiffContents readDirectories(final ByteSource byteSource,
             final boolean readImageData, final FormatCompliance formatCompliance)
             throws ImageReadException, IOException {
-        Map<String, Object> params = Collections.singletonMap(
-          ImagingConstants.PARAM_KEY_READ_THUMBNAILS, readImageData);
-        final Collector collector = new Collector(params);
+        final Collector collector = new Collector(null);
         readDirectories(byteSource, formatCompliance, collector);
         final TiffContents contents = collector.getContents();
         if (contents.directories.size() < 1) {

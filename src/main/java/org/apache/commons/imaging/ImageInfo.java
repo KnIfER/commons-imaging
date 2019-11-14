@@ -138,8 +138,6 @@ public class ImageInfo {
 
     /**
      * Returns the bits per pixel of the image data.
-     *
-     * @return bits per pixel of the image data.
      */
     public int getBitsPerPixel() {
         return bitsPerPixel;
@@ -147,10 +145,8 @@ public class ImageInfo {
 
     /**
      * Returns a list of comments from the image file.
-     *
-     * <p>This is mostly obsolete.</p>
-     *
-     * @return A list of comments.
+     * <p/>
+     * This is mostly obsolete.
      */
     public List<String> getComments() {
         return new ArrayList<>(comments);
@@ -158,10 +154,10 @@ public class ImageInfo {
 
     /**
      * Returns the image file format, ie. ImageFormat.IMAGE_FORMAT_PNG.
+     * <p/>
+     * Returns ImageFormat.IMAGE_FORMAT_UNKNOWN if format is unknown.
      *
-     * <p>Returns ImageFormat.IMAGE_FORMAT_UNKNOWN if format is unknown.</p>
-     *
-     * @return a constant defined in ImageFormat.
+     * @return A constant defined in ImageFormat.
      * @see ImageFormats
      */
     public ImageFormat getFormat() {
@@ -171,7 +167,6 @@ public class ImageInfo {
     /**
      * Returns a string with the name of the image file format.
      *
-     * @return the name of the image file format.
      * @see #getFormat()
      */
     public String getFormatName() {
@@ -181,7 +176,6 @@ public class ImageInfo {
     /**
      * Returns the height of the image in pixels.
      *
-     * @return image height in pixels.
      * @see #getWidth()
      */
     public int getHeight() {
@@ -191,7 +185,6 @@ public class ImageInfo {
     /**
      * Returns the MIME type of the image.
      *
-     * @return image MIME type.
      * @see #getFormat()
      */
     public String getMimeType() {
@@ -200,11 +193,9 @@ public class ImageInfo {
 
     /**
      * Returns the number of images in the file.
-     *
-     * <p>Applies mostly to GIF and TIFF; reading PSD/Photoshop layers is not
-     * supported, and Jpeg/JFIF EXIF thumbnails are not included in this count.</p>
-     *
-     * @return number of images in the file.
+     * <p>
+     * Applies mostly to GIF and TIFF; reading PSD/Photoshop layers is not
+     * supported, and Jpeg/JFIF EXIF thumbnails are not included in this count.
      */
     public int getNumberOfImages() {
         return numberOfImages;
@@ -212,10 +203,10 @@ public class ImageInfo {
 
     /**
      * Returns horizontal dpi of the image, if available.
-     *
-     * <p>Applies to TIFF (optional), BMP (always), GIF (constant: 72), Jpeg
+     * <p>
+     * Applies to TIFF (optional), BMP (always), GIF (constant: 72), Jpeg
      * (optional), PNG (optional), PNM (constant: 72), PSD/Photoshop (constant:
-     * 72).</p>
+     * 72).
      *
      * @return returns -1 if not present.
      */
@@ -225,10 +216,10 @@ public class ImageInfo {
 
     /**
      * Returns physical height of the image in inches, if available.
-     *
-     * <p>Applies to TIFF (optional), BMP (always), GIF (constant: 72), Jpeg
+     * <p>
+     * Applies to TIFF (optional), BMP (always), GIF (constant: 72), Jpeg
      * (optional), PNG (optional), PNM (constant: 72), PSD/Photoshop (constant:
-     * 72).</p>
+     * 72).
      *
      * @return returns -1 if not present.
      */
@@ -238,10 +229,10 @@ public class ImageInfo {
 
     /**
      * Returns vertical dpi of the image, if available.
-     *
-     * <p>Applies to TIFF (optional), BMP (always), GIF (constant: 72), Jpeg
+     * <p>
+     * Applies to TIFF (optional), BMP (always), GIF (constant: 72), Jpeg
      * (optional), PNG (optional), PNM (constant: 72), PSD/Photoshop (constant:
-     * 72).</p>
+     * 72).
      *
      * @return returns -1 if not present.
      */
@@ -251,10 +242,10 @@ public class ImageInfo {
 
     /**
      * Returns physical width of the image in inches, if available.
-     *
-     * <p>Applies to TIFF (optional), BMP (always), GIF (constant: 72), Jpeg
+     * <p>
+     * Applies to TIFF (optional), BMP (always), GIF (constant: 72), Jpeg
      * (optional), PNG (optional), PNM (constant: 72), PSD/Photoshop (constant:
-     * 72).</p>
+     * 72).
      *
      * @return returns -1 if not present.
      */
@@ -265,7 +256,6 @@ public class ImageInfo {
     /**
      * Returns the width of the image in pixels.
      *
-     * @return image width in pixels.
      * @see #getHeight()
      */
     public int getWidth() {
@@ -274,17 +264,13 @@ public class ImageInfo {
 
     /**
      * Returns true if the image is progressive or interlaced.
-     *
-     * @return {@code true} if the image is progressive or interlaced, {@code false} otherwise.
      */
     public boolean isProgressive() {
         return progressive;
     }
 
     /**
-     * Returns the {@link org.apache.commons.imaging.ImageInfo.ColorType} of the image.
-     *
-     * @return image color type.
+     * Returns the {@link ColorType} of the image.
      */
     public ColorType getColorType() {
         return colorType;
@@ -342,8 +328,6 @@ public class ImageInfo {
 
     /**
      * Returns a description of the file format, ie. format version.
-     *
-     * @return file format description.
      */
     public String getFormatDetails() {
         return formatDetails;
@@ -351,8 +335,6 @@ public class ImageInfo {
 
     /**
      * Returns true if the image has transparency.
-     *
-     * @return {@code true} if the image has transparency, {@code false} otherwise.
      */
     public boolean isTransparent() {
         return transparent;
@@ -360,8 +342,6 @@ public class ImageInfo {
 
     /**
      * Returns true if the image uses a palette.
-     *
-     * @return {@code true} if the image uses a palette, {@code false} otherwise.
      */
     public boolean usesPalette() {
         return usesPalette;
@@ -369,8 +349,6 @@ public class ImageInfo {
 
     /**
      * Returns a description of the compression algorithm, if any.
-     *
-     * @return compression algorithm description.
      */
     public CompressionAlgorithm getCompressionAlgorithm() {
         return compressionAlgorithm;

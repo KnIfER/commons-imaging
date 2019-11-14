@@ -16,7 +16,7 @@
  */
 package org.apache.commons.imaging.palette;
 
-import java.awt.image.BufferedImage;
+import org.apache.commons.imaging.BufferedImage;
 
 import org.apache.commons.imaging.ImageWriteException;
 
@@ -34,7 +34,7 @@ public final class Dithering {
      *
      * @param image   the image to change
      * @param palette the palette to use
-     * @throws ImageWriteException if it fails to read the palette index
+     * @throws ImageWriteException
      */
     public static void applyFloydSteinbergDithering(final BufferedImage image, final Palette palette) throws ImageWriteException {
         for (int y = 0; y < image.getHeight(); y++) {

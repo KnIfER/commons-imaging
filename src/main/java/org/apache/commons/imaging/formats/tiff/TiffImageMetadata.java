@@ -16,7 +16,7 @@
  */
 package org.apache.commons.imaging.formats.tiff;
 
-import java.awt.image.BufferedImage;
+import org.apache.commons.imaging.BufferedImage;
 import java.io.IOException;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -74,8 +74,7 @@ public class TiffImageMetadata extends GenericImageMetadata {
             add(new TiffMetadataItem(entry));
         }
 
-        public BufferedImage getThumbnail() throws ImageReadException,
-                IOException {
+        public BufferedImage getThumbnail() throws Exception {
             return directory.getTiffImage(byteOrder);
         }
 

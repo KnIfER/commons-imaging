@@ -16,8 +16,15 @@
  */
 package org.apache.commons.imaging;
 
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
+import org.apache.commons.imaging.common.BinaryFileParser;
+import org.apache.commons.imaging.common.BufferedImageFactory;
+import org.apache.commons.imaging.common.ImageMetadata;
+import org.apache.commons.imaging.common.SimpleBufferedImageFactory;
+import org.apache.commons.imaging.common.bytesource.ByteSource;
+import org.apache.commons.imaging.common.bytesource.ByteSourceArray;
+import org.apache.commons.imaging.common.bytesource.ByteSourceFile;
+import org.apache.commons.imaging.formats.tiff.TiffImageParser;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -30,29 +37,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.imaging.common.BinaryFileParser;
-import org.apache.commons.imaging.common.BufferedImageFactory;
-import org.apache.commons.imaging.common.ImageMetadata;
-import org.apache.commons.imaging.common.SimpleBufferedImageFactory;
-import org.apache.commons.imaging.common.bytesource.ByteSource;
-import org.apache.commons.imaging.common.bytesource.ByteSourceArray;
-import org.apache.commons.imaging.common.bytesource.ByteSourceFile;
-import org.apache.commons.imaging.formats.bmp.BmpImageParser;
-import org.apache.commons.imaging.formats.dcx.DcxImageParser;
-import org.apache.commons.imaging.formats.gif.GifImageParser;
-import org.apache.commons.imaging.formats.icns.IcnsImageParser;
-import org.apache.commons.imaging.formats.ico.IcoImageParser;
-import org.apache.commons.imaging.formats.jpeg.JpegImageParser;
-import org.apache.commons.imaging.formats.pcx.PcxImageParser;
-import org.apache.commons.imaging.formats.png.PngImageParser;
-import org.apache.commons.imaging.formats.pnm.PnmImageParser;
-import org.apache.commons.imaging.formats.psd.PsdImageParser;
-import org.apache.commons.imaging.formats.rgbe.RgbeImageParser;
-import org.apache.commons.imaging.formats.tiff.TiffImageParser;
-import org.apache.commons.imaging.formats.wbmp.WbmpImageParser;
-import org.apache.commons.imaging.formats.xbm.XbmImageParser;
-import org.apache.commons.imaging.formats.xpm.XpmImageParser;
-
 /**
  * Provides the abstract base class for all image reading and writing
  * utilities.  ImageParser implementations are expected to extend this
@@ -60,16 +44,16 @@ import org.apache.commons.imaging.formats.xpm.XpmImageParser;
  * own specific format.   Specific implementations are found
  * under the com.apache.commons.imaging.formats package.
  *
- * <h2>Application Notes</h2>
+ * <h3>Application Notes</h3>
  *
- * <h3>Format support</h3>
+ * <h4>Format support</h4>
  *
  * For the most recent information on format support for the
  * Apache Commons Imaging package, refer to
- * <a href="https://commons.apache.org/imaging/formatsupport.html">Format Support</a>
+ * <a href="http://commons.apache.org/imaging/formatsupport.html">Format Support</a>
  * at the main project development web site.
  *
- * <h3>On the accuracy of this Javadoc</h3>
+ * <h4>On the accuracy of this Javadoc</h4>
  *
  * The original authors of this class did not supply documentation.
  * The Javadoc for this class is based on inspection of the
@@ -79,7 +63,7 @@ import org.apache.commons.imaging.formats.xpm.XpmImageParser;
  * that the documentation is perfect, especially in the more obscure
  * and specialized areas of implementation.
  *
- * <h3>The "Map params" argument</h3>
+ * <h4>The "Map params" argument</h4>
  *
  * Many of the methods specified by this class accept an argument of
  * type Map giving a list of parameters to be used when processing an
@@ -109,21 +93,21 @@ public abstract class ImageParser extends BinaryFileParser {
     public static ImageParser[] getAllImageParsers() {
 
         return new ImageParser[]{
-                new BmpImageParser(),
-                new DcxImageParser(),
-                new GifImageParser(),
-                new IcnsImageParser(),
-                new IcoImageParser(),
-                new JpegImageParser(),
-                new PcxImageParser(),
-                new PngImageParser(),
-                new PnmImageParser(),
-                new PsdImageParser(),
-                new RgbeImageParser(),
+//                new BmpImageParser(),
+//                new DcxImageParser(),
+//                new GifImageParser(),
+//                new IcnsImageParser(),
+//                new IcoImageParser(),
+//                new JpegImageParser(),
+//                new PcxImageParser(),
+//                new PngImageParser(),
+//                new PnmImageParser(),
+//                new PsdImageParser(),
+//                new RgbeImageParser(),
                 new TiffImageParser(),
-                new WbmpImageParser(),
-                new XbmImageParser(),
-                new XpmImageParser(),
+//                new WbmpImageParser(),
+//                new XbmImageParser(),
+//                new XpmImageParser(),
                 // new JBig2ImageParser(),
                 // new TgaImageParser(),
         };
@@ -447,7 +431,7 @@ public abstract class ImageParser extends BinaryFileParser {
      * @throws IOException        In the event of unsuccessful read or access operation.
      */
     public List<BufferedImage> getAllBufferedImages(final ByteSource byteSource)
-            throws ImageReadException, IOException {
+			throws Exception {
         final BufferedImage bi = getBufferedImage(byteSource, null);
 
         final List<BufferedImage> result = new ArrayList<>();
@@ -470,7 +454,7 @@ public abstract class ImageParser extends BinaryFileParser {
      * @throws IOException        In the event of unsuccessful read or access operation.
      */
     public final List<BufferedImage> getAllBufferedImages(final byte[] bytes)
-            throws ImageReadException, IOException {
+			throws Exception {
         return getAllBufferedImages(new ByteSourceArray(bytes));
     }
 
@@ -485,7 +469,7 @@ public abstract class ImageParser extends BinaryFileParser {
      *                            parser implementation.
      * @throws IOException        In the event of unsuccessful read or access operation.
      */
-    public final List<BufferedImage> getAllBufferedImages(final File file) throws ImageReadException, IOException {
+    public final List<BufferedImage> getAllBufferedImages(final File file) throws Exception {
         if (!canAcceptExtension(file)) {
             return null;
         }
@@ -509,7 +493,7 @@ public abstract class ImageParser extends BinaryFileParser {
      * @throws IOException        In the event of unsuccessful read or access operation.
      */
     public abstract BufferedImage getBufferedImage(ByteSource byteSource, Map<String, Object> params)
-            throws ImageReadException, IOException;
+			throws Exception;
 
     /**
      * Gets a buffered image specified by the byte array (for
@@ -527,7 +511,7 @@ public abstract class ImageParser extends BinaryFileParser {
      * @throws IOException        In the event of unsuccessful read or access operation.
      */
     public final BufferedImage getBufferedImage(final byte[] bytes, final Map<String, Object> params)
-            throws ImageReadException, IOException {
+			throws Exception {
         return getBufferedImage(new ByteSourceArray(bytes), params);
     }
 
@@ -547,7 +531,7 @@ public abstract class ImageParser extends BinaryFileParser {
      * @throws IOException        In the event of unsuccessful read or access operation.
      */
     public final BufferedImage getBufferedImage(final File file, final Map<String, Object> params)
-            throws ImageReadException, IOException {
+			throws Exception {
         if (!canAcceptExtension(file)) {
             return null;
         }
@@ -849,7 +833,6 @@ public abstract class ImageParser extends BinaryFileParser {
      * Write the ImageInfo and format-specific information for the image
      * content of the specified byte source to a PrintWriter
      *
-     * @param pw print writer used for writing the ImageInfo
      * @param byteSource A valid byte source.
      * @return A valid PrintWriter.
      * @throws ImageReadException In the event that the specified content
@@ -926,18 +909,18 @@ public abstract class ImageParser extends BinaryFileParser {
      * Indicates whether the ImageParser implementation can accept
      * the specified file name based on its extension.
      *
-     * @param fileName A valid string giving a file name or file path.
+     * @param filename An valid string giving a file name or file path.
      * @return If the parser can accept the format, true; otherwise, false.
      */
-    protected final boolean canAcceptExtension(final String fileName) {
+    protected final boolean canAcceptExtension(final String filename) {
         final String[] exts = getAcceptedExtensions();
         if (exts == null) {
             return true;
         }
 
-        final int index = fileName.lastIndexOf('.');
+        final int index = filename.lastIndexOf('.');
         if (index >= 0) {
-            String ext = fileName.substring(index);
+            String ext = filename.substring(index);
             ext = ext.toLowerCase(Locale.ENGLISH);
 
             for (final String ext2 : exts) {

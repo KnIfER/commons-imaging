@@ -25,9 +25,9 @@ import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TI
 import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_COMPRESSION_UNCOMPRESSED_1;
 import static org.apache.commons.imaging.formats.tiff.constants.TiffConstants.TIFF_COMPRESSION_UNCOMPRESSED_2;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
+import org.apache.commons.imaging.Dimension;
+import android.graphics.Rect;
+import org.apache.commons.imaging.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -418,33 +418,28 @@ public class TiffImageParser extends ImageParser {
     }
 
      /**
-     * <p>Gets a buffered image specified by the byte source.
+     * Gets a buffered image specified by the byte source.
      * The TiffImageParser class features support for a number of options that
      * are unique to the TIFF format.  These options can be specified by
      * supplying the appropriate parameters using the keys from the
-     * TiffConstants class and the params argument for this method.</p>
-     *
-     * <p><strong>Loading Partial Images</strong></p>
-     *
-     * <p>The TIFF parser includes support for loading partial images without
+     * TiffConstants class and the params argument for this method.
+     * <h4>Loading Partial Images</h4>
+     * The TIFF parser includes support for loading partial images without
      * committing significantly more memory resources than are necessary
      * to store the image. This feature is useful for conserving memory
      * in applications that require a relatively small sub image from a
      * very large TIFF file.  The specifications for partial images are
-     * as follows:</p>
-     *
-     * <pre>
-     *   HashMap&lt;String, Object&gt; params = new HashMap&lt;String, Object&gt;();
+     * as follows:
+     * <code><pre>
+     *   HashMap<String, Object> params = new HashMap<String, Object>();
      *   params.put(TiffConstants.PARAM_KEY_SUBIMAGE_X, new Integer(x));
      *   params.put(TiffConstants.PARAM_KEY_SUBIMAGE_Y, new Integer(y));
      *   params.put(TiffConstants.PARAM_KEY_SUBIMAGE_WIDTH, new Integer(width));
      *   params.put(TiffConstants.PARAM_KEY_SUBIMAGE_HEIGHT, new Integer(height));
-     * </pre>
-     *
-     * <p>Note that the arguments x, y, width, and height must specify a
+     * </pre></code>
+     * Note that the arguments x, y, width, and height must specify a
      * valid rectangular region that is fully contained within the
-     * source TIFF image.</p>
-     *
+     * source TIFF image.
      * @param byteSource A valid instance of ByteSource
      * @param params Optional instructions for special-handling or
      * interpretation of the input data (null objects are permitted and
@@ -458,7 +453,7 @@ public class TiffImageParser extends ImageParser {
      */
     @Override
     public BufferedImage getBufferedImage(final ByteSource byteSource, final Map<String, Object> params)
-            throws ImageReadException, IOException {
+			throws Exception {
         final FormatCompliance formatCompliance = FormatCompliance.getDefault();
         final TiffReader reader = new TiffReader(isStrict(params));
         final TiffContents contents = reader.readFirstDirectory(byteSource, params,
@@ -474,7 +469,7 @@ public class TiffImageParser extends ImageParser {
 
     @Override
     public List<BufferedImage> getAllBufferedImages(final ByteSource byteSource)
-            throws ImageReadException, IOException {
+			throws Exception {
         final FormatCompliance formatCompliance = FormatCompliance.getDefault();
         final TiffReader tiffReader = new TiffReader(true);
         final TiffContents contents = tiffReader.readDirectories(byteSource, true,
@@ -510,7 +505,7 @@ public class TiffImageParser extends ImageParser {
         throw new ImageReadException("Non-Integer parameter " + key);
     }
 
-    private Rectangle checkForSubImage(
+    private Rect checkForSubImage(
             final Map<String, Object> params)
             throws ImageReadException {
         final Integer ix0 = getIntegerParameter(TiffConstants.PARAM_KEY_SUBIMAGE_X, params);
@@ -540,12 +535,12 @@ public class TiffImageParser extends ImageParser {
             throw new ImageReadException("Incomplete subimage parameters, missing" + sb.toString());
         }
 
-        return new Rectangle(ix0, iy0, iwidth, iheight);
+        return new Rect(ix0, iy0, ix0+iwidth, iy0+iheight);
     }
 
     protected BufferedImage getBufferedImage(final TiffDirectory directory,
             final ByteOrder byteOrder, final Map<String, Object> params)
-            throws ImageReadException, IOException {
+			throws Exception {
         final List<TiffField> entries = directory.entries;
 
         if (entries == null) {
@@ -564,35 +559,35 @@ public class TiffImageParser extends ImageParser {
         final int width = directory.getSingleFieldValue(TiffTagConstants.TIFF_TAG_IMAGE_WIDTH);
         final int height = directory.getSingleFieldValue(TiffTagConstants.TIFF_TAG_IMAGE_LENGTH);
 
-        Rectangle subImage = checkForSubImage(params);
+		Rect subImage = checkForSubImage(params);
         if (subImage != null) {
             // Check for valid subimage specification. The following checks
             // are consistent with BufferedImage.getSubimage()
-            if (subImage.width <= 0) {
+            if (subImage.width() <= 0) {
                 throw new ImageReadException("negative or zero subimage width");
             }
-            if (subImage.height <= 0) {
+            if (subImage.height() <= 0) {
                 throw new ImageReadException("negative or zero subimage height");
             }
-            if (subImage.x < 0 || subImage.x >= width) {
+            if (subImage.left < 0 || subImage.left >= width) {
                 throw new ImageReadException("subimage x is outside raster");
             }
-            if (subImage.x + subImage.width > width) {
+            if (subImage.right > width) {
                 throw new ImageReadException("subimage (x+width) is outside raster");
             }
-            if (subImage.y < 0 || subImage.y >= height) {
+            if (subImage.top < 0 || subImage.top >= height) {
                 throw new ImageReadException("subimage y is outside raster");
             }
-            if (subImage.y + subImage.height > height) {
+            if (subImage.bottom > height) {
                 throw new ImageReadException("subimage (y+height) is outside raster");
             }
 
             // if the subimage is just the same thing as the whole
             // image, suppress the subimage processing
-            if (subImage.x == 0
-                    && subImage.y == 0
-                    && subImage.width == width
-                    && subImage.height == height) {
+            if (subImage.left == 0
+                    && subImage.top == 0
+                    && subImage.width() == width
+                    && subImage.height() == height) {
                 subImage = null;
             }
         }

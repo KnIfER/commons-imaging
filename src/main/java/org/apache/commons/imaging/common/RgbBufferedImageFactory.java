@@ -17,16 +17,18 @@
 
 package org.apache.commons.imaging.common;
 
-import java.awt.image.BufferedImage;
+import android.graphics.Bitmap;
+
+import org.apache.commons.imaging.BufferedImage;
 
 public class RgbBufferedImageFactory implements BufferedImageFactory {
     @Override
     public BufferedImage getColorBufferedImage(final int width, final int height,
             final boolean hasAlpha) {
         if (hasAlpha) {
-            return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            return new BufferedImage(Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888));
         }
-        return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		return new BufferedImage(Bitmap.createBitmap(width,height,Bitmap.Config.RGB_565));
     }
 
     @Override

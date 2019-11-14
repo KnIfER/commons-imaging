@@ -16,7 +16,7 @@
  */
 package org.apache.commons.imaging.palette;
 
-import java.awt.image.BufferedImage;
+import org.apache.commons.imaging.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

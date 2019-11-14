@@ -16,9 +16,9 @@
  */
 package org.apache.commons.imaging.palette;
 
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
+import android.graphics.Bitmap;
+
+import org.apache.commons.imaging.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -391,7 +391,6 @@ public class PaletteFactory {
      * @param transparent whether to consider the alpha values
      * @param max the maximum number of colors the palette can contain
      * @return the palette of at most {@code max} colors
-     * @throws ImageWriteException if it fails to process the palette
      */
     public Palette makeQuantizedRgbaPalette(final BufferedImage src, final boolean transparent, final int max) throws ImageWriteException {
         return new MedianCutQuantizer(!transparent).process(src, max,
@@ -437,9 +436,9 @@ public class PaletteFactory {
         final int width = src.getWidth();
         final int height = src.getHeight();
 
-        if (ColorSpace.TYPE_GRAY == src.getColorModel().getColorSpace().getType()) {
-            return true;
-        }
+        //if (ColorSpace.TYPE_GRAY == src.getColorModel().getColorSpace().getType()) {
+        //    return true;
+        //}
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -465,7 +464,7 @@ public class PaletteFactory {
         final int width = src.getWidth();
         final int height = src.getHeight();
 
-        if (!src.getColorModel().hasAlpha()) {
+        if (src.config==Bitmap.Config.RGB_565) {
             return false;
         }
 
@@ -502,10 +501,9 @@ public class PaletteFactory {
     }
 
     public int countTransparentColors(final BufferedImage src) {
-        final ColorModel cm = src.getColorModel();
-        if (!cm.hasAlpha()) {
-            return 0;
-        }
+		if (src.config==Bitmap.Config.RGB_565) {
+			return 0;
+		}
 
         final int width = src.getWidth();
         final int height = src.getHeight();

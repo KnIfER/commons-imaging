@@ -20,8 +20,7 @@ import static org.apache.commons.imaging.common.BinaryFunctions.printCharQuad;
 import static org.apache.commons.imaging.common.BinaryFunctions.read4Bytes;
 import static org.apache.commons.imaging.common.BinaryFunctions.skipBytes;
 
-import java.awt.color.ICC_Profile;
-import java.io.File;
+ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteOrder;
@@ -41,12 +40,12 @@ public class IccProfileParser extends BinaryFileParser {
         this.setByteOrder(ByteOrder.BIG_ENDIAN);
     }
 
-    public IccProfileInfo getICCProfileInfo(final ICC_Profile iccProfile) {
+    public IccProfileInfo getICCProfileInfo(final Object iccProfile) {
         if (iccProfile == null) {
             return null;
         }
 
-        return getICCProfileInfo(new ByteSourceArray(iccProfile.getData()));
+        return getICCProfileInfo(new ByteSourceArray((byte[]) iccProfile));
     }
 
     public IccProfileInfo getICCProfileInfo(final byte[] bytes) {
@@ -282,8 +281,8 @@ public class IccProfileParser extends BinaryFileParser {
         return null;
     }
 
-    public boolean issRGB(final ICC_Profile iccProfile) throws IOException {
-        return issRGB(new ByteSourceArray(iccProfile.getData()));
+    public boolean issRGB(final Object iccProfile) throws IOException {
+        return issRGB(new ByteSourceArray((byte[]) iccProfile));
     }
 
     public boolean issRGB(final byte[] bytes) throws IOException {

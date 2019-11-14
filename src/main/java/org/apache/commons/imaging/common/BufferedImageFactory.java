@@ -17,12 +17,12 @@
 
 package org.apache.commons.imaging.common;
 
-import java.awt.image.BufferedImage;
+import org.apache.commons.imaging.BufferedImage;
 
 public interface BufferedImageFactory {
     BufferedImage getColorBufferedImage(int width, int height,
-            boolean hasAlpha);
+										boolean hasAlpha);
 
     BufferedImage getGrayscaleBufferedImage(int width, int height,
-            boolean hasAlpha);
+											boolean hasAlpha);
 }

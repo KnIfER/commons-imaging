@@ -16,18 +16,19 @@
  */
 package org.apache.commons.imaging.formats.tiff.datareaders;
 
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.ByteOrder;
+import android.graphics.Rect;
 
+import org.apache.commons.imaging.BufferedImage;
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.common.ImageBuilder;
 import org.apache.commons.imaging.formats.tiff.TiffDirectory;
 import org.apache.commons.imaging.formats.tiff.TiffImageData;
 import org.apache.commons.imaging.formats.tiff.photometricinterpreters.PhotometricInterpreter;
 import org.apache.commons.imaging.formats.tiff.photometricinterpreters.PhotometricInterpreterRgb;
+
+ import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.ByteOrder;
 
 public final class DataReaderStrips extends ImageDataReader {
 
@@ -220,8 +221,8 @@ public final class DataReaderStrips extends ImageDataReader {
 
 
     @Override
-    public BufferedImage readImageData(final Rectangle subImage)
-            throws ImageReadException, IOException {
+    public BufferedImage readImageData(final Rect subImage)
+			throws Exception {
         // the legacy code is optimized to the reading of whole
         // strips (except for the last strip in the image, which can
         // be a partial).  So create a working image with compatible
@@ -230,8 +231,8 @@ public final class DataReaderStrips extends ImageDataReader {
 
         // strip0 and strip1 give the indices of the strips containing
         // the first and last rows of pixels in the subimage
-        final int strip0 = subImage.y / rowsPerStrip;
-        final int strip1 = (subImage.y + subImage.height - 1) / rowsPerStrip;
+        final int strip0 = subImage.top / rowsPerStrip;
+        final int strip1 = (subImage.top + subImage.height() - 1) / rowsPerStrip;
         final int workingHeight = (strip1 - strip0 + 1) * rowsPerStrip;
 
 
@@ -242,7 +243,7 @@ public final class DataReaderStrips extends ImageDataReader {
         // in the full image (the source image) that will be processed.
 
         final int y0 = strip0 * rowsPerStrip;
-        final int yLimit = subImage.y - y0 + subImage.height;
+        final int yLimit = subImage.top - y0 + subImage.height();
 
 
         // TO DO: we can probably save some processing by using yLimit instead
@@ -271,18 +272,18 @@ public final class DataReaderStrips extends ImageDataReader {
         }
 
 
-        if (subImage.x == 0
-                && subImage.y == y0
-                && subImage.width == width
-                && subImage.height == workingHeight) {
+        if (subImage.left == 0
+                && subImage.top == y0
+                && subImage.width() == width
+                && subImage.height() == workingHeight) {
             // the subimage exactly matches the ImageBuilder bounds
             return workingBuilder.getBufferedImage();
         }
         return workingBuilder.getSubimage(
-                subImage.x,
-                subImage.y - y0,
-                subImage.width,
-                subImage.height);
+                subImage.left,
+                subImage.top - y0,
+                subImage.width(),
+                subImage.height());
     }
 
 }

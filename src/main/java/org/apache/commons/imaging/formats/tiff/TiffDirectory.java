@@ -16,7 +16,7 @@
  */
 package org.apache.commons.imaging.formats.tiff;
 
-import java.awt.image.BufferedImage;
+import org.apache.commons.imaging.BufferedImage;
 import java.io.IOException;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -148,14 +148,13 @@ public class TiffDirectory extends TiffElement {
         return false;
     }
 
-    public BufferedImage getTiffImage(final ByteOrder byteOrder) throws ImageReadException,
-            IOException {
+    public BufferedImage getTiffImage(final ByteOrder byteOrder) throws Exception {
         final Map<String, Object> params = null;
         return getTiffImage(byteOrder, params);
     }
 
     public BufferedImage getTiffImage(final ByteOrder byteOrder, final Map<String, Object> params)
-            throws ImageReadException, IOException {
+			throws Exception {
         if (null == tiffImageData) {
             return null;
         }

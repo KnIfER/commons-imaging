@@ -27,12 +27,10 @@ import org.apache.commons.imaging.internal.Debug;
 public class TiffContents {
     public final TiffHeader header;
     public final List<TiffDirectory> directories;
-    public final List<TiffField> tiffFields;
 
-    public TiffContents(final TiffHeader tiffHeader, final List<TiffDirectory> directories, final List<TiffField> tiffFields) {
+    public TiffContents(final TiffHeader tiffHeader, final List<TiffDirectory> directories) {
         this.header = tiffHeader;
         this.directories = Collections.unmodifiableList(directories);
-        this.tiffFields = Collections.unmodifiableList(tiffFields);
     }
 
     public List<TiffElement> getElements() throws ImageReadException {

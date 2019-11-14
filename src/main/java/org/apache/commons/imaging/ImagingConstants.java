@@ -26,38 +26,41 @@ package org.apache.commons.imaging;
 public final class ImagingConstants {
 
     /**
-     * <p>Parameter key. Used to hint the file name when reading from a byte array
-     * or InputStream. The file name hint can help disambiguate what file the
-     * image format.</p>
-     *
-     * <p>Applies to read operations.</p>
-     *
-     * <p>Valid values: file name as string</p>
+     * Parameter key. Used to hint the filename when reading from a byte array
+     * or InputStream. The filename hint can help disambiguate what file the
+     * image format.
+     * <p>
+     * Applies to read operations.
+     * <p>
+     * Valid values: filename as string
+     * <p>
      *
      * @see java.io.InputStream
      */
     public static final String PARAM_KEY_FILENAME = "FILENAME";
 
     /**
-     * <p>Parameter key. Used in write operations to indicate desired image format.</p>
+     * Parameter key. Used in write operations to indicate desired image format.
+     * <p>
+     * Valid values: Any format defined in ImageFormat, such as
+     * ImageFormat.IMAGE_FORMAT_PNG.
+     * <p>
      *
-     * <p>Valid values: Any format defined in ImageFormat, such as
-     * ImageFormat.IMAGE_FORMAT_PNG.</p>
-     *
-     * @see org.apache.commons.imaging.ImageFormats
+     * @see ImageFormats
      */
     public static final String PARAM_KEY_FORMAT = "FORMAT";
 
     /**
-     * <p>Parameter key. Used in write operations to indicate desired compression
-     * algorithm.</p>
-     *
-     * <p>Currently only applies to writing TIFF image files.</p>
-     *
-     * <p>Valid values: {@code TiffConstants.TIFF_COMPRESSION_UNCOMPRESSED,
+     * Parameter key. Used in write operations to indicate desired compression
+     * algorithm.
+     * <p>
+     * Currently only applies to writing TIFF image files.
+     * <p>
+     * Valid values: TiffConstants.TIFF_COMPRESSION_UNCOMPRESSED,
      * TiffConstants.TIFF_COMPRESSION_CCITT_1D,
      * TiffConstants.TIFF_COMPRESSION_LZW,
-     * TiffConstants.TIFF_COMPRESSION_PACKBITS.}</p>
+     * TiffConstants.TIFF_COMPRESSION_PACKBITS.
+     * <p>
      *
      * @see org.apache.commons.imaging.formats.tiff.constants.TiffConstants
      */
@@ -66,54 +69,59 @@ public final class ImagingConstants {
     public static final String BUFFERED_IMAGE_FACTORY = "BUFFERED_IMAGE_FACTORY";
 
     /**
-     * <p>Parameter key. Indicates whether to read embedded thumbnails.</p>
-     *
-     * <p>Only applies to read EXIF metadata from JPEG/JFIF files.</p>
-     *
-     * <p>Valid values: {@code Boolean.TRUE} and {@code Boolean.FALSE}.</p>
+     * Parameter key. Indicates whether to read embedded thumbnails.
+     * <p>
+     * Only applies to read EXIF metadata from JPEG/JFIF files.
+     * <p>
+     * Valid values: Boolean.TRUE and Boolean.FALSE.
+     * <p>
      *
      * @see org.apache.commons.imaging.formats.tiff.constants.TiffConstants
      */
     public static final String PARAM_KEY_READ_THUMBNAILS = "READ_THUMBNAILS";
 
     /**
-     * <p>Parameter key. Indicates whether to throw exceptions when parsing invalid
-     * files, or whether to tolerate small problems.</p>
-     *
-     * <p>Valid values: {@code Boolean.TRUE} and {@code Boolean.FALSE}. Default value:
-     * {@code Boolean.FALSE}.</p>
+     * Parameter key. Indicates whether to throw exceptions when parsing invalid
+     * files, or whether to tolerate small problems.
+     * <p>
+     * Valid values: Boolean.TRUE and Boolean.FALSE. Default value:
+     * Boolean.FALSE.
+     * <p>
      *
      * @see org.apache.commons.imaging.formats.tiff.constants.TiffConstants
      */
     public static final String PARAM_KEY_STRICT = "STRICT";
 
     /**
-     * <p>Parameter key.</p>
+     * Parameter key.
      *
-     * <p>Only used when writing images.</p>
-     *
-     * <p>Valid values: TiffOutputSet to write into the image's EXIF metadata.</p>
+     * Only used when writing images.
+     * <p>
+     * Valid values: TiffOutputSet to write into the image's EXIF metadata.
+     * <p>
      *
      * @see org.apache.commons.imaging.formats.tiff.write.TiffOutputSet
      */
     public static final String PARAM_KEY_EXIF = "EXIF";
 
     /**
-     * <p>Parameter key.</p>
+     * Parameter key.
      *
-     * <p>Only used when writing images.</p>
-     *
-     * <p>Valid values: String of XMP XML.</p>
+     * Only used when writing images.
+     * <p>
+     * Valid values: String of XMP XML.
+     * <p>
      */
     public static final String PARAM_KEY_XMP_XML = "XMP_XML";
 
     /**
-     * <p>Parameter key. Used in write operations to indicate the desired pixel
-     * density (DPI), and/or aspect ratio.</p>
+     * Parameter key. Used in write operations to indicate the desired pixel
+     * density (DPI), and/or aspect ratio.
+     * <p>
+     * Valid values: PixelDensity
+     * <p>
      *
-     * <p>Valid values: PixelDensity</p>
-     *
-     * @see org.apache.commons.imaging.PixelDensity
+     * @see PixelDensity
      */
     public static final String PARAM_KEY_PIXEL_DENSITY = "PIXEL_DENSITY";
 
